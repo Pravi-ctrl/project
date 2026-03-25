@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReTech - Second Hand Electronics Marketplace</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- Navigation Header -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <span class="logo-icon">📱</span>ReTech
+            </a>
+
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Find phones, laptops, and more...">
+                <button class="search-btn" aria-label="Search">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <nav class="nav-links">
+                <a href="#phones">Phones</a>
+                <a href="#laptops">Laptops</a>
+                <button class="btn btn-outline" id="loginBtn">Login</button>
+                <button class="btn btn-primary" id="sellBtn">+ Sell</button>
+            </nav>
+
+            <button class="mobile-menu-btn" aria-label="Menu">
+                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container hero-content">
+                <div class="hero-text">
+                    <h1>Upgrade your tech, <span>upgrade your life.</span></h1>
+                    <p>Buy and sell quality second-hand phones and laptops directly with other users. Safe, easy, and
+                        affordable.</p>
+                    <div class="hero-actions">
+                        <a href="#marketplace" class="btn btn-primary btn-large">Start Browsing</a>
+                        <a href="#" class="btn btn-outline btn-large btn-sell-hero">Sell Your Device</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <!-- Placeholder graphic -->
+                    <div class="glow-orb orb-1"></div>
+                    <div class="glow-orb orb-2"></div>
+                    <div class="device-mockup mockup-phone">
+                        <div class="mockup-screen phone-screen"></div>
+                    </div>
+                    <div class="device-mockup mockup-laptop">
+                        <div class="mockup-screen laptop-screen"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categories Section -->
+        <section class="categories section-padding">
+            <div class="container">
+                <h2 class="section-title">Explore Categories</h2>
+                <div class="category-grid">
+                    <div class="category-card" data-category="phones">
+                        <div class="category-icon">📱</div>
+                        <h3>Smartphones</h3>
+                        <p>iPhones, Samsung, Google & more</p>
+                    </div>
+                    <div class="category-card" data-category="laptops">
+                        <div class="category-icon">💻</div>
+                        <h3>Laptops</h3>
+                        <p>MacBooks, Dell, HP & Gaming</p>
+                    </div>
+                    <div class="category-card" data-category="tablets">
+                        <div class="category-icon">📱</div>
+                        <h3>Tablets</h3>
+                        <p>iPads, Galaxy Tabs & E-readers</p>
+                    </div>
+                    <div class="category-card" data-category="accessories">
+                        <div class="category-icon">🎧</div>
+                        <h3>Accessories</h3>
+                        <p>Audio, chargers & wearables</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Marketplace Listing Section -->
+        <section id="marketplace" class="marketplace section-padding bg-light">
+            <div class="container">
+                <div class="marketplace-header">
+                    <h2 class="section-title">Fresh Recommendations</h2>
+                    <div class="filters">
+                        <select id="filterCategory" class="filter-select">
+                            <option value="all">All Categories</option>
+                            <option value="phones">Phones</option>
+                            <option value="laptops">Laptops</option>
+                        </select>
+                        <select id="filterSort" class="filter-select">
+                            <option value="newest">Newest First</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="product-grid" id="productGrid">
+                    <!-- Products will be injected here via JS -->
+                </div>
+
+                <div class="load-more-container">
+                    <button class="btn btn-outline" id="loadMoreBtn">Load More</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <a href="#" class="logo">
+                    <span class="logo-icon">📱</span>ReTech
+                </a>
+                <p>The smartest way to buy and sell pre-loved electronics safely and sustainably.</p>
+            </div>
+            <div class="footer-links">
+                <div class="link-group">
+                    <h4>Marketplace</h4>
+                    <a href="#">All Categories</a>
+                    <a href="#">Phones</a>
+                    <a href="#">Laptops</a>
+                </div>
+                <div class="link-group">
+                    <h4>Support</h4>
+                    <a href="#">Help Center</a>
+                    <a href="#">Safety Center</a>
+                    <a href="#">Contact Us</a>
+                </div>
+                <div class="link-group">
+                    <h4>Legal</h4>
+                    <a href="#">Terms of Use</a>
+                    <a href="#">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom container">
+            <p>&copy; 2026 ReTech Marketplace. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Sell Modal -->
+    <div class="modal-overlay" id="sellModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeModalBtn">&times;</button>
+            <h2 class="modal-title">List an Item</h2>
+            <form id="sellForm" class="sell-form">
+                <div class="form-group">
+                    <label for="itemTitle">Item Title</label>
+                    <input type="text" id="itemTitle" required placeholder="e.g. iPhone 13 Pro 128GB - Excellent">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="itemCategory">Category</label>
+                        <select id="itemCategory" required>
+                            <option value="" disabled selected>Select category</option>
+                            <option value="phones">Phone</option>
+                            <option value="laptops">Laptop</option>
+                            <option value="tablets">Tablet</option>
+                            <option value="accessories">Accessory</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemPrice">Price ($)</label>
+                        <input type="number" id="itemPrice" required placeholder="399" min="1">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="itemCondition">Condition</label>
+                    <select id="itemCondition" required>
+                        <option value="Brand New">Brand New</option>
+                        <option value="Like New">Like New</option>
+                        <option value="Good">Good</option>
+                        <option value="Fair">Fair</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="itemLocation">Location</label>
+                    <input type="text" id="itemLocation" required placeholder="City, Neighborhood">
+                </div>
+
+                <div class="form-group image-upload-group">
+                    <label>Item Images</label>
+                    <div class="image-upload-area">
+                        <div class="upload-icon">📷</div>
+                        <p>Click to upload or drag & drop</p>
+                        <p class="upload-hint">SVG, PNG, JPG or GIF (max. 800x400px)</p>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full">Post an Ad</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal-content" style="max-width: 400px;">
+            <button class="modal-close" id="closeLoginModalBtn">&times;</button>
+            <h2 class="modal-title" id="authTitle">Welcome Back</h2>
+            <form id="authForm" class="sell-form">
+                <div class="form-group">
+                    <label for="authUsername">Username</label>
+                    <input type="text" id="authUsername" required placeholder="Enter username">
+                </div>
+                <div class="form-group">
+                    <label for="authPassword">Password</label>
+                    <input type="password" id="authPassword" required placeholder="Enter password">
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-full" id="authSubmitBtn">Login</button>
+                
+                <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem;">
+                    <span id="authToggleText">Don't have an account?</span> 
+                    <a href="#" id="authToggleLink" style="color: var(--primary); font-weight: 600;">Sign Up</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
