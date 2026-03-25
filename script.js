@@ -12,8 +12,11 @@ const sellModal = document.getElementById('sellModal');
 const closeModalBtn = document.getElementById('closeModalBtn');
 const sellForm = document.getElementById('sellForm');
 
+const searchInput = document.getElementById('searchInput');
+
 // Auth DOM
 const loginBtn = document.getElementById('loginBtn');
+const profileBtn = document.getElementById('profileBtn');
 const loginModal = document.getElementById('loginModal');
 const closeLoginModalBtn = document.getElementById('closeLoginModalBtn');
 const authForm = document.getElementById('authForm');
@@ -35,11 +38,11 @@ if (localStorage.getItem('retech_user')) {
 
 function updateNavForUser() {
     if (currentUser) {
-        loginBtn.textContent = 'Logout';
-        loginBtn.classList.add('logged-in');
+        loginBtn.style.display = 'none';
+        profileBtn.style.display = 'inline-block';
     } else {
-        loginBtn.textContent = 'Login';
-        loginBtn.classList.remove('logged-in');
+        loginBtn.style.display = 'inline-block';
+        profileBtn.style.display = 'none';
     }
 }
 
@@ -71,6 +74,13 @@ function renderProducts(productsToRender) {
     productsToRender.forEach(product => {
         const productEl = document.createElement('div');
         productEl.className = 'product-card';
+        // Open details on click
+        productEl.addEventListener('click', (e) => {
+            if (!e.target.closest('.product-like-btn')) {
+                openProductDetails(product);
+            }
+        });
+        
         productEl.innerHTML = `
             <div class="product-image-container">
                 <div class="product-badge">${product.condition}</div>
@@ -101,6 +111,12 @@ function renderProducts(productsToRender) {
 
 function applyFilters() {
     let filtered = [...products];
+
+    // Search Query
+    const query = searchInput.value.toLowerCase().trim();
+    if (query) {
+        filtered = filtered.filter(p => p.title.toLowerCase().includes(query));
+    }
 
     // Category Filter
     const category = filterCategory.value;
@@ -171,6 +187,77 @@ function updateAuthUI() {
     authToggleLink.textContent = isLoginMode ? "Sign Up" : "Login";
 }
 
+// Modal Logic - Details
+function openProductDetails(product) {
+    document.getElementById('detailImg').src = product.imagePath;
+    document.getElementById('detailTitle').textContent = product.title;
+    document.getElementById('detailPrice').textContent = "$" + product.price;
+    document.getElementById('detailDesc').textContent = product.description || "No description provided.";
+    document.getElementById('detailCondition').textContent = product.condition;
+    document.getElementById('detailLocation').textContent = product.location;
+    document.getElementById('detailSeller').textContent = product.seller;
+    
+    productDetailModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeProductDetails() {
+    productDetailModal.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+// Modal Logic - Profile
+function openProfileModal() {
+    profileModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    renderProfileListings();
+}
+
+function closeProfileModal() {
+    profileModal.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+function renderProfileListings() {
+    const container = document.getElementById('profileListings');
+    const myProducts = products.filter(p => p.seller === currentUser.username);
+    
+    if (myProducts.length === 0) {
+        container.innerHTML = '<p style="text-align: center; color: var(--text-light); padding: 2rem 0;">You have no active listings.</p>';
+        return;
+    }
+    
+    container.innerHTML = myProducts.map(p => `
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; border: 1px solid var(--light-muted); border-radius: var(--radius-sm); margin-bottom: 1rem;">
+            <div>
+                <h4 style="margin-bottom: 0.25rem;">${p.title}</h4>
+                <div style="color: var(--primary); font-weight: bold;">$${p.price}</div>
+            </div>
+            <button class="btn btn-outline" style="border-color: var(--error); color: var(--error); padding: 0.25rem 0.75rem;" onclick="deleteProduct(${p.id})">Delete</button>
+        </div>
+    `).join('');
+}
+
+async function deleteProduct(id) {
+    if (!confirm("Are you sure you want to delete this listing?")) return;
+    try {
+        const res = await fetch(API_URL + '/' + id, { method: 'DELETE' });
+        if (res.ok) {
+            products = products.filter(p => p.id !== id);
+            renderProfileListings();
+            applyFilters();
+            showToast("Listing deleted cleanly.", "success");
+        }
+    } catch (e) {
+        showToast("Error deleting item.", "info");
+    }
+}
+
+// Event Listeners for Filters
+searchInput.addEventListener('input', applyFilters);
+filterCategory.addEventListener('change', applyFilters);
+filterSort.addEventListener('change', applyFilters);
+
 sellBtn.addEventListener('click', openSellModal);
 sellHeroBtn.addEventListener('click', (e) => {
     e.preventDefault();
@@ -178,6 +265,17 @@ sellHeroBtn.addEventListener('click', (e) => {
 });
 closeModalBtn.addEventListener('click', closeSellModal);
 closeLoginModalBtn.addEventListener('click', closeLoginModal);
+closeDetailModalBtn.addEventListener('click', closeProductDetails);
+profileBtn.addEventListener('click', openProfileModal);
+closeProfileModalBtn.addEventListener('click', closeProfileModal);
+
+logoutProfileBtn.addEventListener('click', () => {
+    currentUser = null;
+    localStorage.removeItem('retech_user');
+    updateNavForUser();
+    closeProfileModal();
+    showToast("Logged out successfully");
+});
 
 // Close modals when clicking completely outside content
 window.addEventListener('click', (e) => {
@@ -192,20 +290,7 @@ authToggleLink.addEventListener('click', (e) => {
     updateAuthUI();
 });
 
-// Handle Login/Logout Logic Button
-loginBtn.addEventListener('click', () => {
-    if (currentUser) {
-        // Logout
-        currentUser = null;
-        localStorage.removeItem('retech_user');
-        updateNavForUser();
-        showToast("Logged out successfully");
-    } else {
-        openLoginModal();
-    }
-});
-
-// Auth Form Submit
+// Handle Login Button
 authForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const endpoint = isLoginMode ? '/login' : '/register';
@@ -291,6 +376,7 @@ sellForm.addEventListener('submit', async (e) => {
     const newItem = {
         title: titleVal,
         price: parseInt(priceVal),
+        description: document.getElementById('itemDescription').value,
         category: document.getElementById('itemCategory').value,
         condition: document.getElementById('itemCondition').value,
         location: document.getElementById('itemLocation').value,

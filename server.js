@@ -28,6 +28,7 @@ const productSchema = new mongoose.Schema({
     condition: { type: String, required: true },
     location: { type: String, required: true },
     seller: { type: String, required: true },
+    description: { type: String, default: "A great pre-owned item." },
     imagePath: { type: String, default: "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&q=80&w=800" },
     postedAt: { type: String, default: "Just now" }
 }, { timestamps: true });
@@ -79,6 +80,19 @@ app.post('/api/products', async (req, res) => {
         res.status(201).json(savedProduct);
     } catch (err) {
         res.status(500).json({ error: "Failed to save to MongoDB." });
+    }
+});
+
+// 2.5 DELETE a product (For User Profile)
+app.delete('/api/products/:id', async (req, res) => {
+    try {
+        const deletedItem = await Product.findOneAndDelete({ id: Number(req.params.id) });
+        if (!deletedItem) {
+            return res.status(404).json({ error: "Product not found." });
+        }
+        res.status(200).json({ success: true, message: "Deleted successfully" });
+    } catch (err) {
+        res.status(500).json({ error: "Failed to delete item." });
     }
 });
 

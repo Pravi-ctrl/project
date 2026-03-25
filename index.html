@@ -36,6 +36,7 @@
             <nav class="nav-links">
                 <a href="#phones">Phones</a>
                 <a href="#laptops">Laptops</a>
+                <button class="btn btn-outline" id="profileBtn" style="display:none;">Profile</button>
                 <button class="btn btn-outline" id="loginBtn">Login</button>
                 <button class="btn btn-primary" id="sellBtn">+ Sell</button>
             </nav>
@@ -215,6 +216,11 @@
                     <input type="text" id="itemLocation" required placeholder="City, Neighborhood">
                 </div>
 
+                <div class="form-group">
+                    <label for="itemDescription">Description</label>
+                    <textarea id="itemDescription" required rows="3" placeholder="Condition details, battery health, etc."></textarea>
+                </div>
+
                 <div class="form-group image-upload-group">
                     <label>Item Images</label>
                     <div class="image-upload-area">
@@ -251,6 +257,47 @@
                     <a href="#" id="authToggleLink" style="color: var(--primary); font-weight: 600;">Sign Up</a>
                 </p>
             </form>
+        </div>
+    </div>
+
+    <!-- Product Details Modal -->
+    <div class="modal-overlay" id="productDetailModal">
+        <div class="modal-content" style="max-width: 800px; padding: 0; overflow: hidden;">
+            <button class="modal-close" id="closeDetailModalBtn" style="color: var(--dark); top: 1rem; right: 1rem; background: rgba(255,255,255,0.8); border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; z-index: 10;">&times;</button>
+            <div class="detail-grid" style="display: grid; grid-template-columns: 1fr 1fr;">
+                <div style="background: var(--light-muted); display:flex; align-items: center;">
+                    <img id="detailImg" src="" alt="Product" style="width: 100%; height: 100%; object-fit: cover; max-height: 500px;">
+                </div>
+                <div style="padding: 2.5rem; display: flex; flex-direction: column;">
+                    <span class="product-badge" id="detailCondition" style="position: relative; top: 0; left: 0; display: inline-block; width: fit-content; margin-bottom: 1rem;">Condition</span>
+                    <h2 id="detailTitle" style="font-size: 1.75rem; margin-bottom: 0.5rem; color: var(--dark);">Title</h2>
+                    <div id="detailPrice" style="font-size: 2rem; font-weight: 800; color: var(--primary); margin-bottom: 1.5rem;">$0</div>
+                    
+                    <p id="detailDesc" style="color: var(--text-light); margin-bottom: 2rem; flex: 1;">Description goes here.</p>
+                    
+                    <div style="border-top: 1px solid var(--light-muted); padding-top: 1.5rem; margin-bottom: 1.5rem;">
+                        <p style="margin-bottom: 0.5rem;"><strong>Seller:</strong> <span id="detailSeller">Name</span></p>
+                        <p><strong>Location:</strong> <span id="detailLocation">City</span></p>
+                    </div>
+                    
+                    <button class="btn btn-primary btn-full">Message Seller</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Profile Modal -->
+    <div class="modal-overlay" id="profileModal">
+        <div class="modal-content" style="max-width: 600px;">
+            <button class="modal-close" id="closeProfileModalBtn">&times;</button>
+            <h2 class="modal-title" style="margin-bottom: 0.5rem;">Your Dashboard</h2>
+            <p style="color: var(--text-light); margin-bottom: 2rem;">Manage your active listings</p>
+            
+            <div id="profileListings" style="max-height: 400px; overflow-y: auto;">
+                <!-- User's listings will be rendered here -->
+            </div>
+            
+            <button class="btn btn-outline btn-full" id="logoutProfileBtn" style="margin-top: 1.5rem; border-color: var(--error); color: var(--error);">Log Out</button>
         </div>
     </div>
 
